@@ -7,7 +7,8 @@ from mysql.connector import IntegrityError
 
 app = Flask(__name__)
 
-app.secret_key = "student_attendance_secret_key_2026"
+import os
+app.secret_key = os.environ.get("SECRET_KEY", "temporary-local-key")
 
 
 # Login protection
