@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Performance</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 30px;
+        }
+
+        h1 {
+            color: #1e3a8a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        .back {
+            display: inline-block;
+            background: #1e3a8a;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>My Performance</h1>
+
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Exam Name</th>
+            <th>Marks Obtained</th>
+            <th>Total Marks</th>
+            <th>Exam Date</th>
+        </tr>
+
+        {% for record in performance_records %}
+        <tr>
+            <td>{{ record.subject }}</td>
+            <td>{{ record.exam_name }}</td>
+            <td>{{ record.marks_obtained }}</td>
+            <td>{{ record.total_marks }}</td>
+            <td>{{ record.exam_date }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5">No performance records found.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="/student_dashboard" class="back">
+        Back to Dashboard
+    </a>
+
+</body>
+</html>

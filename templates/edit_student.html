@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Student</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 30px;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            width: 400px;
+            margin: auto;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #263b5e;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #263b5e;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        a {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Edit Student Details</h2>
+
+    <form method="POST">
+
+        <label>Student Name</label>
+        <input type="text" name="student_name"
+               value="{{ student.student_name }}" required>
+
+        <label>Register Number</label>
+        <input type="text" name="register_number"
+               value="{{ student.register_number }}" required>
+
+        <label>Department</label>
+        <input type="text" name="department"
+               value="{{ student.department }}">
+
+        <label>Study Year</label>
+        <input type="number" name="study_year"
+               value="{{ student.study_year }}">
+
+        <label>Email</label>
+        <input type="email" name="email"
+               value="{{ student.email }}">
+
+        <label>Phone</label>
+        <input type="text" name="phone"
+               value="{{ student.phone }}">
+
+        <button type="submit">Update Student</button>
+
+    </form>
+
+    <a href="/view_students">Back to Students List</a>
+
+</div>
+
+</body>
+</html>

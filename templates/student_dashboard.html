@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ddd;
+        }
+
+        h2 {
+            color: #1e3a8a;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 12px 0;
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 350px;
+            height: 250px;
+            margin: 15px auto;
+            position: relative;
+        }
+
+        .button {
+            display: inline-block;
+            background: #1e3a8a;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 8px 5px 0 0;
+        }
+
+        .logout {
+            background: #dc2626;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Student Dashboard</h1>
+        <p>Welcome, {{ student.student_name }}!</p>
+    </div>
+
+    <!-- Student Profile -->
+    <div class="card">
+        <h2>My Profile</h2>
+
+        <p><b>Student ID:</b> {{ student.student_id }}</p>
+        <p><b>Name:</b> {{ student.student_name }}</p>
+        <p><b>Register Number:</b> {{ student.register_number }}</p>
+        <p><b>Department:</b> {{ student.department }}</p>
+        <p><b>Study Year:</b> {{ student.study_year }}</p>
+        <p><b>Email:</b> {{ student.email }}</p>
+        <p><b>Phone:</b> {{ student.phone }}</p>
+    </div>
+
+    <!-- Attendance Summary -->
+    <div class="card">
+        <h2>My Attendance Summary</h2>
+
+        <p><b>Total Attendance Days:</b> {{ total_days }}</p>
+        <p><b>Present Days:</b> {{ present_days }}</p>
+        <p><b>Absent Days:</b> {{ absent_days }}</p>
+        <p><b>Late Days:</b> {{ late_days }}</p>
+        <p><b>Attendance Percentage:</b> {{ attendance_percentage }}%</p>
+    </div>
+
+    <!-- Attendance Chart -->
+    <div class="card">
+        <h2>Attendance Chart</h2>
+
+        <div class="chart-container">
+            <canvas id="attendanceChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Performance Summary -->
+    <div class="card">
+        <h2>My Performance Summary</h2>
+
+        <p><b>Total Exams:</b> {{ total_exams }}</p>
+        <p><b>Total Marks Obtained:</b> {{ total_marks }}</p>
+        <p><b>Maximum Marks:</b> {{ maximum_marks }}</p>
+        <p><b>Average Percentage:</b> {{ average_percentage }}%</p>
+    </div>
+
+    <!-- Performance Chart -->
+    <div class="card">
+        <h2>Performance Chart</h2>
+
+        <div class="chart-container">
+            <canvas id="performanceChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="card">
+
+        <a href="/my_attendance" class="button">
+            My Attendance
+        </a>
+
+        <a href="/my_performance" class="button">
+            My Performance
+        </a>
+
+        <a href="/logout" class="button logout">
+            Logout
+        </a>
+
+    </div>
+
+    <!-- Charts -->
+    <script>
+
+        // Attendance Chart
+        new Chart(document.getElementById("attendanceChart"), {
+            type: "doughnut",
+
+            data: {
+                labels: ["Present", "Absent", "Late"],
+
+                datasets: [{
+                    data: [
+                        {{ present_days | tojson }},
+                        {{ absent_days | tojson }},
+                        {{ late_days | tojson }}
+                    ],
+
+                    backgroundColor: [
+                        "#16a34a",
+                        "#dc2626",
+                        "#f59e0b"
+                    ]
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
+        });
+
+        // Performance Chart
+        new Chart(document.getElementById("performanceChart"), {
+            type: "bar",
+
+            data: {
+                labels: ["Marks Obtained", "Maximum Marks"],
+
+                datasets: [{
+                    label: "Performance",
+
+                    data: [
+                        {{ total_marks | tojson }},
+                        {{ maximum_marks | tojson }}
+                    ],
+
+                    backgroundColor: [
+                        "#2563eb",
+                        "#93c5fd"
+                    ]
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+
+</body>
+</html>
