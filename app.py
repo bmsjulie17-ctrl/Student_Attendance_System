@@ -1,8 +1,7 @@
 
 from db import get_db_connection
 from flask import Flask, render_template, request, redirect, url_for, session
-from db import get_db_connection
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
 from psycopg2 import IntegrityError
 from psycopg2.extras import RealDictCursor
@@ -377,7 +376,7 @@ def my_performance():
     )
 
 
-# Add Student
+# Add Student and Create Student Login Account
 @app.route("/students", methods=["GET", "POST"])
 @login_required
 def students():
@@ -391,33 +390,64 @@ def students():
         year = request.form["study_year"]
         email = request.form["email"].strip()
         phone = request.form["phone"].strip()
+        password = request.form["password"].strip()
 
         connection = get_db_connection()
         cursor = connection.cursor()
 
         try:
-            cursor.execute("""
-                INSERT INTO students
-                (student_name, register_number, department, study_year, email, phone)
-                VALUES (%s, %s, %s, %s, %s, %s)
-            """, (name, reg_no, department, year, email, phone))
+            # Check whether register number already exists
+            cursor.execute(
+                "SELECT student_id FROM students WHERE register_number = %s",
+                (reg_no,)
+            )
 
-            connection.commit()
+            if cursor.fetchone():
+                error = "This Register Number is already registered."
 
-            cursor.close()
-            connection.close()
+            else:
+                # Check whether email already has a login account
+                cursor.execute(
+                    "SELECT user_id FROM users WHERE email = %s",
+                    (email,)
+                )
 
-            return redirect(url_for("students"))
+                if cursor.fetchone():
+                    error = "This email already has a login account."
+
+                else:
+                    # Save student details
+                    cursor.execute("""
+                        INSERT INTO students
+                        (student_name, register_number, department,
+                         study_year, email, phone)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """, (name, reg_no, department, year, email, phone))
+
+                    # Create secure student login account
+                    hashed_password = generate_password_hash(password)
+
+                    cursor.execute("""
+                        INSERT INTO users
+                        (name, email, password, user_type)
+                        VALUES (%s, %s, %s, %s)
+                    """, (name, email, hashed_password, "Student"))
+
+                    connection.commit()
+
+                    cursor.close()
+                    connection.close()
+
+                    return redirect(url_for("students"))
 
         except IntegrityError:
             connection.rollback()
-            error = "This Register Number is already registered."
+            error = "Register Number or Email already exists."
 
         cursor.close()
         connection.close()
 
     return render_template("students.html", error=error)
-
 
 # View Students
 @app.route("/view_students")
