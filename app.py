@@ -1,9 +1,11 @@
 
+from db import get_db_connection
 from flask import Flask, render_template, request, redirect, url_for, session
 from db import get_db_connection
 from werkzeug.security import check_password_hash
 from functools import wraps
-from mysql.connector import IntegrityError
+from psycopg2 import IntegrityError
+from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 
@@ -42,7 +44,7 @@ def login():
         user_type = request.form["user_type"]
 
         connection = get_db_connection()
-        cursor = connection.cursor(dictionary=True)
+        cursor = connection.cursor(cursor_factory=RealDictCursor)
 
         cursor.execute(
             "SELECT * FROM users WHERE email = %s",
@@ -82,7 +84,7 @@ def dashboard():
         return redirect(url_for("student_dashboard"))
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     # Total Students
     cursor.execute("SELECT COUNT(*) AS total_students FROM students")
@@ -204,7 +206,7 @@ def student_dashboard():
         return redirect(url_for("dashboard"))
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     # Get Student Details
     cursor.execute(
@@ -297,7 +299,7 @@ def my_attendance():
         return redirect(url_for("dashboard"))
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     cursor.execute(
         "SELECT student_id FROM students WHERE email = %s",
@@ -339,7 +341,7 @@ def my_performance():
         return redirect(url_for("dashboard"))
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     cursor.execute(
         "SELECT student_id FROM students WHERE email = %s",
@@ -423,7 +425,7 @@ def students():
 def view_students():
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     cursor.execute("SELECT * FROM students ORDER BY student_id")
     students = cursor.fetchall()
@@ -440,7 +442,7 @@ def view_students():
 def edit_student(student_id):
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     if request.method == "POST":
         student_name = request.form["student_name"]
@@ -519,7 +521,7 @@ def delete_student(student_id):
 def attendance():
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     error = None
 
@@ -564,7 +566,7 @@ def attendance():
 def view_attendance():
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     cursor.execute("""
         SELECT
@@ -593,7 +595,7 @@ def view_attendance():
 def performance():
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     error = None
 
@@ -653,7 +655,7 @@ def performance():
 def view_performance():
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     cursor.execute("""
         SELECT
@@ -685,7 +687,7 @@ def view_performance():
 def reports():
 
     connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
+    cursor = connection.cursor(cursor_factory=RealDictCursor)
 
     # Total students
     cursor.execute("SELECT COUNT(*) AS total_students FROM students")
