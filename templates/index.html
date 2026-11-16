@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Attendance and Performance Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        /* Header */
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .login-button {
+            background: white;
+            color: #1e3a8a;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .login-button:hover {
+            background: #dbeafe;
+        }
+
+        /* Welcome Section */
+
+        .hero {
+            text-align: center;
+            padding: 75px 20px;
+            background: white;
+        }
+
+        .hero h1 {
+            color: #1e3a8a;
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: #64748b;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 750px;
+            margin: 0 auto 25px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 14px 32px;
+            text-decoration: none;
+            border-radius: 7px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .hero-button:hover {
+            background: #1e40af;
+        }
+
+        /* Features */
+
+        .features {
+            padding: 45px 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: #1e3a8a;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .features-description {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 35px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+            border-top: 4px solid #2563eb;
+        }
+
+        .card-icon {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            color: #1e3a8a;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+
+        .footer {
+            background: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 22px;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            margin: 5px;
+            font-size: 14px;
+        }
+
+        /* Mobile Design */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 20px;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .hero {
+                padding: 50px 18px;
+            }
+
+            .hero h1 {
+                font-size: 27px;
+            }
+
+            .features {
+                padding: 35px 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <h2>Student Management System</h2>
+
+        <a href="/login" class="login-button">
+            Login
+        </a>
+
+    </div>
+
+
+    <!-- Welcome Section -->
+
+    <div class="hero">
+
+        <h1>Welcome to Student Attendance & Performance Management System</h1>
+
+        <p>
+            A simple and efficient web-based application to manage
+            student information, monitor daily attendance,
+            maintain examination marks and track academic performance.
+        </p>
+
+        <a href="/login" class="hero-button">
+            Get Started - Login
+        </a>
+
+    </div>
+
+
+    <!-- Features Section -->
+
+    <div class="features">
+
+        <h2>Our Features</h2>
+
+        <p class="features-description">
+            Explore the main features of our Student Management System.
+        </p>
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">👨‍🎓</div>
+
+                <h3>Student Management</h3>
+
+                <p>
+                    Add, view, update and manage student
+                    personal and academic information.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">📅</div>
+
+                <h3>Attendance Management</h3>
+
+                <p>
+                    Record daily attendance and monitor
+                    Present, Absent and Late details.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">📊</div>
+
+                <h3>Performance Management</h3>
+
+                <p>
+                    Enter examination marks and monitor
+                    student academic performance.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">📑</div>
+
+                <h3>Reports</h3>
+
+                <p>
+                    View attendance summaries and
+                    academic performance reports.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <div class="footer">
+
+        <p>Student Attendance and Performance Management System</p>
+
+        <p>Developed as an MCA Final Year Project</p>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Reports</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        h2 {
+            color: #1e3a8a;
+            margin-top: 25px;
+        }
+
+        .summary {
+            background: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .summary-card {
+            background: #eff6ff;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 5px solid #2563eb;
+        }
+
+        .summary-card h3 {
+            font-size: 15px;
+            color: #475569;
+            margin: 0 0 10px;
+        }
+
+        .summary-card p {
+            font-size: 25px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin: 0;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th {
+            background: #1e3a8a;
+            color: white;
+            padding: 13px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0;
+            background: #1e3a8a;
+            color: white;
+            padding: 11px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Student Attendance & Performance System</h1>
+</header>
+
+<div class="container">
+
+    <h1>Student Reports</h1>
+
+    <a class="back-btn" href="/dashboard">Back to Dashboard</a>
+
+    <div class="summary">
+
+        <h2>Overall Summary</h2>
+
+        <div class="summary-grid">
+
+            <div class="summary-card">
+                <h3>Total Students</h3>
+                <p>{{ student_count.total_students }}</p>
+            </div>
+
+            <div class="summary-card">
+                <h3>Total Attendance Records</h3>
+                <p>{{ attendance_summary.total_records or 0 }}</p>
+            </div>
+
+            <div class="summary-card">
+                <h3>Present Days</h3>
+                <p>{{ attendance_summary.present_count or 0 }}</p>
+            </div>
+
+            <div class="summary-card">
+                <h3>Absent Days</h3>
+                <p>{{ attendance_summary.absent_count or 0 }}</p>
+            </div>
+
+            <div class="summary-card">
+                <h3>Late Days</h3>
+                <p>{{ attendance_summary.late_count or 0 }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="table-container">
+
+        <h2>Attendance Report</h2>
+
+        <table>
+            <tr>
+                <th>Student Name</th>
+                <th>Register Number</th>
+                <th>Total Days</th>
+                <th>Present Days</th>
+                <th>Attendance Percentage</th>
+            </tr>
+
+            {% for record in attendance_records %}
+            <tr>
+                <td>{{ record.student_name }}</td>
+                <td>{{ record.register_number }}</td>
+                <td>{{ record.total_days }}</td>
+                <td>{{ record.present_days or 0 }}</td>
+                <td>
+                    {% if record.attendance_percentage is not none %}
+                        {{ record.attendance_percentage }}%
+                    {% else %}
+                        No attendance
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <div class="table-container">
+
+        <h2>Performance Report</h2>
+
+        <table>
+            <tr>
+                <th>Student Name</th>
+                <th>Subject</th>
+                <th>Exam</th>
+                <th>Marks Obtained</th>
+                <th>Total Marks</th>
+                <th>Percentage</th>
+            </tr>
+
+            {% for record in performance_records %}
+            <tr>
+                <td>{{ record.student_name }}</td>
+                <td>{{ record.subject }}</td>
+                <td>{{ record.exam_name }}</td>
+                <td>{{ record.marks_obtained }}</td>
+                <td>{{ record.total_marks }}</td>
+                <td>{{ record.percentage }}%</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
